@@ -9,3 +9,7 @@
     4.5 - cria o comando delete
 
 5 - cria o arquivo teste_db.py para testar o comando create do CRUD e verificar o funcionamento do banco de dados com dados imaginários
+
+6 - criar API REST com FLASK
+    6.1 - estrutura base
+    
