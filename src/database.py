@@ -32,3 +32,19 @@ def inserir_leitura(temperatura, umidade):
     conn.close()
 
     return cursor.lastrowid
+
+# read
+def listar_leituras(limite=50):
+    conn = get_db_connection()
+
+    leituras = conn.execute(
+        '''
+        SELECT * FROM leituras
+        ORDER BY timestamp DESC
+        LIMIT ?
+        ''',
+        (limite,)
+    ).fetchall()
+
+    conn.close()
+    return leituras
