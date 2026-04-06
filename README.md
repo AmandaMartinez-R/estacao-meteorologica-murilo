@@ -13,4 +13,5 @@
 6 - criar API REST com FLASK
     6.1 - estrutura base
     6.2 - cria ROTA: GET / (PAINEL PRINCIPAL)
-    
+    6.3 - GET /leituras (LISTAR TODAS)
+    6.4 - POST /leituras - essa é a rota que o Arduino vai usar

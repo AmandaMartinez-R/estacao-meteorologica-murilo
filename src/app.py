@@ -44,3 +44,18 @@ def criar():
     )
 
     return jsonify({'id': id_novo, 'status': 'criado'}), 201
+
+# GET /leituras/<id>
+@app.route('/leituras/<int:id>')
+def detalhe(id):
+    leitura = buscar_leitura(id)
+
+    if leitura is None:
+        return jsonify({'erro': 'Não encontrado'}), 404
+
+    formato = request.args.get('formato')
+
+    if formato == 'json':
+        return jsonify(dict(leitura))
+
+    return render_template('editar.html', leitura=leitura)
