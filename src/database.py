@@ -18,7 +18,7 @@ def init_db():
     conn.close()
 
 # CRUD
-# create
+# insert 
 def inserir_leitura(temperatura, umidade):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -33,7 +33,7 @@ def inserir_leitura(temperatura, umidade):
 
     return cursor.lastrowid
 
-# read
+# select
 def listar_leituras(limite=50):
     conn = get_db_connection()
 
@@ -49,7 +49,7 @@ def listar_leituras(limite=50):
     conn.close()
     return leituras
 
-# buscar 
+# select
 def buscar_leitura(id):
     conn = get_db_connection()
 
