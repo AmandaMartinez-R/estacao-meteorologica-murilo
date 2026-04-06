@@ -1,0 +1,12 @@
+import sqlite3
+
+DB_NAME = 'dados.db'
+# criação da conexão com o banco de dados e configuração para evitar bloqueios
+def get_db_connection():
+    conn = sqlite3.connect(DB_NAME, timeout=10)
+    conn.execute('PRAGMA journal_mode=WAL')
+    conn.execute('PRAGMA busy_timeout=5000')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
