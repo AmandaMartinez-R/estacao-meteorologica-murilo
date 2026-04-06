@@ -59,3 +59,15 @@ def detalhe(id):
         return jsonify(dict(leitura))
 
     return render_template('editar.html', leitura=leitura)
+
+# PUT /leituras/<id>
+@app.route('/leituras/<int:id>', methods=['PUT'])
+def atualizar(id):
+    dados = request.get_json()
+
+    if not dados:
+        return jsonify({'erro': 'JSON inválido'}), 400
+
+    atualizar_leitura(id, dados)
+
+    return jsonify({'status': 'atualizado'})
