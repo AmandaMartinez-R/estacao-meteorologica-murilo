@@ -80,3 +80,15 @@ def atualizar_leitura(id, dados):
 
     conn.commit()
     conn.close()
+
+# delete
+def deletar_leitura(id):
+    conn = get_db_connection()
+
+    conn.execute(
+        'DELETE FROM leituras WHERE id = ?',
+        (id,)
+    )
+
+    conn.commit()
+    conn.close()
