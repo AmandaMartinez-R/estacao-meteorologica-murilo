@@ -12,4 +12,5 @@
 
 6 - criar API REST com FLASK
     6.1 - estrutura base
+    6.2 - cria ROTA: GET / (PAINEL PRINCIPAL)
     
