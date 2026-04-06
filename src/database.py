@@ -10,3 +10,9 @@ def get_db_connection():
     return conn
 
 
+# inicialização do banco de dados, criando a tabela se ela não existir
+def init_db():
+    conn = get_db_connection()
+    with open('schema.sql') as f:
+        conn.executescript(f.read())
+    conn.close()
