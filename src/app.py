@@ -29,3 +29,18 @@ def listar():
         return jsonify([dict(l) for l in leituras])
 
     return render_template('historico.html', leituras=leituras)
+
+# rota POST /leituras (rota do arduino)
+@app.route('/leituras', methods=['POST'])
+def criar():
+    dados = request.get_json()
+
+    if not dados:
+        return jsonify({'erro': 'JSON inválido'}), 400
+
+    id_novo = inserir_leitura(
+        dados['temperatura'],
+        dados['umidade']
+    )
+
+    return jsonify({'id': id_novo, 'status': 'criado'}), 201
