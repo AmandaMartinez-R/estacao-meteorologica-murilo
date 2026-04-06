@@ -71,3 +71,10 @@ def atualizar(id):
     atualizar_leitura(id, dados)
 
     return jsonify({'status': 'atualizado'})
+
+# DELETE /leituras/<id>
+@app.route('/leituras/<int:id>', methods=['DELETE'])
+def deletar(id):
+    deletar_leitura(id)
+
+    return jsonify({'status': 'deletado'})
