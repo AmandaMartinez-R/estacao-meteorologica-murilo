@@ -15,3 +15,8 @@
     6.2 - cria ROTA: GET / (PAINEL PRINCIPAL)
     6.3 - GET /leituras (LISTAR TODAS)
     6.4 - POST /leituras - essa é a rota que o Arduino vai usar
+    6.5 - GET /leituras/<id>
+    6.6 - PUT /leituras/<id>
+    6.7 - DELETE /leituras/<id>
+    6.8 - GET /api/estatisticas
+    6.9 - cria comando para rodar o servidor
