@@ -64,25 +64,60 @@ arduino-cli monitor -p /dev/ttyACM0 -c baudrate=9600
 
 Substitua `arduino:avr:uno` e a porta conforme a sua placa (`arduino-cli board list`).
 
-1 - criação da tabela em "schema.sql"
-2 - coração do banco de dados e seu funcionamento (conexão com o banco)
-3 - inicialização do banco 
-4 - CRUD
-    4.1 - cria o comando de create (inserir novos dados)
-    4.2 - cria o comando de listar
-    4.3 - cria o comando de buscar
-    4.4 - cria o comando update
-    4.5 - cria o comando delete
+---
 
-5 - cria o arquivo teste_db.py para testar o comando create do CRUD e verificar o funcionamento do banco de dados com dados imaginários
+## Dependências Python e leitura serial (Arduino → API)
 
-6 - criar API REST com FLASK
-    6.1 - estrutura base
-    6.2 - cria ROTA: GET / (PAINEL PRINCIPAL)
-    6.3 - GET /leituras (LISTAR TODAS)
-    6.4 - POST /leituras - essa é a rota que o Arduino vai usar
-    6.5 - GET /leituras/<id>
-    6.6 - PUT /leituras/<id>
-    6.7 - DELETE /leituras/<id>
-    6.8 - GET /api/estatisticas
-    6.9 - cria comando para rodar o servidor
+O script `src/serial_reader.py` lê a porta serial onde o Arduino envia JSON (uma linha por leitura, como no firmware) e repassa os dados para a API com `POST` em `http://localhost:5000/leituras`. Para isso funcionar, é preciso instalar as bibliotecas listadas em `src/requirements.txt`.
+
+### 1. Instalar o `requirements.txt`
+
+Recomenda-se um ambiente virtual; na raiz do repositório:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate          # Linux/macOS
+# ou, no Windows: venv\Scripts\activate
+
+pip install -r src/requirements.txt
+```
+
+Isso instala **Flask**, **pyserial** e **requests**, usados pelo servidor e pelo leitor serial.
+
+### 2. Subir o servidor antes do leitor serial
+
+O `serial_reader.py` envia dados para o Flask. Em um terminal, dentro de `src/`:
+
+```bash
+cd src
+python3 app.py
+```
+
+### 3. Rodar o leitor serial
+
+Com a placa conectada e o firmware gravado, em **outro** terminal:
+
+```bash
+cd src
+python3 serial_reader.py
+```
+
+Ajuste a constante `PORTA` em `serial_reader.py` conforme o sistema: no Linux costuma ser `/dev/ttyACM0` ou `/dev/ttyUSB0`; no Windows, algo como `COM3`. A taxa (`BAUD`) deve ser **9600**, igual ao sketch.
+
+---
+
+## Passo a passo realizado no projeto
+
+O trabalho foi organizado em camadas: primeiro o modelo de dados e o acesso ao SQLite, depois testes locais do banco, em seguida a API Flask e, por fim, a ponte serial entre o Arduino e o servidor.
+
+### Banco de dados (SQLite)
+
+Foi definido o esquema relacional em `schema.sql`, com a tabela de leituras (temperatura, umidade, metadados e carimbo de tempo). Em `database.py` ficou o núcleo da persistência: função de conexão com o banco, `init_db()` para aplicar o script SQL na inicialização e as operações de **CRUD** — inserir leitura, listar (com limite), buscar por identificador, atualizar e excluir. O script `teste_db.py` valida o fluxo com dados fictícios, exercitando pelo menos a criação e a listagem.
+
+### API REST (Flask)
+
+Sobre essa base foi montada a API em `app.py`: estrutura Flask com templates para o painel, rota **GET /** como painel principal (e opção de resposta JSON), **GET /leituras** para listar todas as leituras, **POST /leituras** para receber novos registros (rota usada pelo Arduino, via `serial_reader.py` ou integração equivalente), `GET /leituras/<id>`, `PUT /leituras/<id>` e `DELETE /leituras/<id>` para consultar e alterar registros pontuais, além de **GET /api/estatisticas** para agregados. O servidor é executado com `python3 app.py` a partir da pasta `src/`, conforme a seção anterior.
+
+### Firmware e integração física
+
+O sketch em `src/firmware/firmware.ino` lê o sensor DHT e envia JSON pela serial; o `serial_reader.py` lê essa porta e encaminha as leituras para o **POST /leituras**, fechando o circuito entre hardware, backend e interface.
