@@ -60,3 +60,23 @@ def buscar_leitura(id):
 
     conn.close()
     return leitura
+
+#update
+def atualizar_leitura(id, dados):
+    conn = get_db_connection()
+
+    conn.execute(
+        '''
+        UPDATE leituras
+        SET temperatura = ?, umidade = ?
+        WHERE id = ?
+        ''',
+        (
+            dados.get('temperatura'),
+            dados.get('umidade'),
+            id
+        )
+    )
+
+    conn.commit()
+    conn.close()
