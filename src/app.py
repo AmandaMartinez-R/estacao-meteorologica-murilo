@@ -78,3 +78,25 @@ def deletar(id):
     deletar_leitura(id)
 
     return jsonify({'status': 'deletado'})
+
+# GET /api/estatisticas
+@app.route('/api/estatisticas')
+def estatisticas():
+    conn = get_db_connection()
+
+    stats = conn.execute(
+        '''
+        SELECT 
+            AVG(temperatura) as media_temp,
+            MIN(temperatura) as min_temp,
+            MAX(temperatura) as max_temp,
+            AVG(umidade) as media_umid,
+            MIN(umidade) as min_umid,
+            MAX(umidade) as max_umid
+        FROM leituras
+        '''
+    ).fetchone()
+
+    conn.close()
+
+    return jsonify(dict(stats))
