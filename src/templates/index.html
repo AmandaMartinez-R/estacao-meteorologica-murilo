@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Painel Principal</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Temperatura</th>
+        <th>Umidade</th>
+        <th>Data</th>
+    </tr>
+
+    {% for l in leituras %}
+    <tr>
+        <td>{{ l.id }}</td>
+        <td>{{ l.temperatura }} °C</td>
+        <td>{{ l.umidade }} %</td>
+        <td>{{ l.timestamp }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<button onclick="atualizar()">Atualizar</button>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

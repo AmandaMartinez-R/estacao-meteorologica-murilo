@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Editar Leitura</h1>
+
+<form onsubmit="salvar(event)">
+    <input type="hidden" id="id" value="{{ leitura.id }}">
+
+    <label>Temperatura:</label>
+    <input type="number" id="temperatura" value="{{ leitura.temperatura }}">
+
+    <label>Umidade:</label>
+    <input type="number" id="umidade" value="{{ leitura.umidade }}">
+
+    <button type="submit">Salvar</button>
+</form>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

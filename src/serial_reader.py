@@ -3,7 +3,7 @@ import json
 import requests
 import time
 
-PORTA = 'COM3'  # MUDE AQUI
+PORTA = '/dev/ttyACM0'  # MUDE AQUI
 BAUD = 9600
 URL = 'http://localhost:5000/leituras'
 
