@@ -100,3 +100,7 @@ def estatisticas():
     conn.close()
 
     return jsonify(dict(stats))
+
+# pra rodar o servidor
+if __name__ == '__main__':
+    app.run(debug=True)
