@@ -48,3 +48,15 @@ def listar_leituras(limite=50):
 
     conn.close()
     return leituras
+
+# buscar 
+def buscar_leitura(id):
+    conn = get_db_connection()
+
+    leitura = conn.execute(
+        'SELECT * FROM leituras WHERE id = ?',
+        (id,)
+    ).fetchone()
+
+    conn.close()
+    return leitura
