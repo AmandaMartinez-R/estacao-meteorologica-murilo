@@ -17,3 +17,15 @@ def index():
         return jsonify([dict(l) for l in leituras])
 
     return render_template('index.html', leituras=leituras)
+
+# rota GET /leitura
+@app.route('/leituras')
+def listar():
+    leituras = listar_leituras()
+
+    formato = request.args.get('formato')
+
+    if formato == 'json':
+        return jsonify([dict(l) for l in leituras])
+
+    return render_template('historico.html', leituras=leituras)
