@@ -1,16 +1,21 @@
-# Ponderada Estação Metorológica
+# Ponderada Estação Metorológica 🌦️
+
+## Autores
+- Amanda Cristina Martinez da Rosa
+- Carlos Icaro Kauã Coelho Paiva
+
 
 ## Objetivo:
 
 O objetivo central é construir um sistema completo de ponta a ponta: um dispositivo físico
-simulando uma estação meteorológica envia dados para um servidor web, que os armazena em
+simulando uma **estação meteorológica** envia dados para um servidor web, que os armazena em
 banco de dados e os disponibiliza em uma interface de visualização.
 
 Ao concluir esta atividade, o estudante terá desenvolvido um sistema real de IoT (Internet das
 Coisas), com comunicação serial, API REST, banco de dados relacional e interface web
 responsiva.
 
-## Firmware (Arduino IDE)
+## Firmware (Arduino IDE) -  Como executar
 
 O sketch está em `src/firmware/firmware.ino`. Use a [Arduino IDE](https://www.arduino.cc/en/software) 2.x (recomendado) ou 1.8.x.
 
@@ -49,7 +54,7 @@ sudo usermod -aG dialout $USER
 
 ---
 
-## Arduino CLI (opcional)
+## Arduino CLI (opcional) - Como executar
 
 Se preferir linha de comando, instale o [arduino-cli](https://arduino.cc/cli) e use, por exemplo:
 
@@ -66,7 +71,7 @@ Substitua `arduino:avr:uno` e a porta conforme a sua placa (`arduino-cli board l
 
 ---
 
-## Dependências Python e leitura serial (Arduino → API)
+## Dependências Python e leitura serial (Arduino → API) - Como executar
 
 O script `src/serial_reader.py` lê a porta serial onde o Arduino envia JSON (uma linha por leitura, como no firmware) e repassa os dados para a API com `POST` em `http://localhost:5000/leituras`. Para isso funcionar, é preciso instalar as bibliotecas listadas em `src/requirements.txt`.
 
