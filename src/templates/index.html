@@ -3,10 +3,24 @@
 {% block content %}
 <h1>Painel Principal da Estação Meteorológica</h1>
 
+<div id="heartbeat"
+     class="heartbeat heartbeat--{% if heartbeat.ok %}ok{% else %}stale{% endif %}"
+     data-poll-url="{{ url_for('api_heartbeat') }}">
+    <span class="heartbeat__dot" aria-hidden="true"></span>
+    <span class="heartbeat__text">{{ heartbeat.mensagem }}</span>
+    {% if heartbeat.ultima %}
+    <span class="heartbeat__ts">Última: {{ heartbeat.ultima }}</span>
+    {% else %}
+    <span class="heartbeat__ts"></span>
+    {% endif %}
+</div>
+
 {% if leituras %}
 <p>Temperatura Atual: {{ leituras[0].temperatura }} °C,
 <br>
 Umidade Atual: {{ leituras[0].umidade }} %</p>
+
+
 
 <div class="chart-wrap">
     <canvas id="myChart"></canvas>
@@ -35,14 +49,16 @@ Umidade Atual: {{ leituras[0].umidade }} %</p>
 
 <button onclick="atualizar()">Atualizar</button>
 
-{% if leituras %}
-{% set series = leituras|reverse|list %}
+{% if leituras and chart_data %}
+<script type="application/json" id="chart-data">{{ chart_data | tojson }}</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+(function () {
     const ctx = document.getElementById('myChart');
-    const labels = {{ series|map(attribute='timestamp')|list|tojson }};
-    const temps = {{ series|map(attribute='temperatura')|list|tojson }};    
-    const umids = {{ series|map(attribute='umidade')|list|tojson }};
+    const chartData = JSON.parse(document.getElementById('chart-data').textContent);
+    const labels = chartData.labels;
+    const temps = chartData.temps;
+    const umids = chartData.umids;
     new Chart(ctx, {
       type: 'line',
       data: {
@@ -105,6 +121,7 @@ Umidade Atual: {{ leituras[0].umidade }} %</p>
         }
       }
     });
+})();
 </script>
 {% endif %}
 

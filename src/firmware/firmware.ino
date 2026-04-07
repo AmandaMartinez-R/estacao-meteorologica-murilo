@@ -1,5 +1,5 @@
 #include "DHT.h"
-#define DHTPIN 2
+#define DHTPIN 2 // Pino de conexão do sensor DHT11
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
