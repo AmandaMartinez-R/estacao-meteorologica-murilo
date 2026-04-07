@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Painel Principal</h1>
+<h1>Painel Principal da Estação Meteorológica</h1>
+
+{% if leituras %}
+<p>Temperatura Atual: {{ leituras[0].temperatura }} °C,
+<br>
+Umidade Atual: {{ leituras[0].umidade }} %</p>
+
+<div class="chart-wrap">
+    <canvas id="myChart"></canvas>
+</div>
+{% else %}
+<p>Ainda não há leituras registradas.</p>
+{% endif %}
 
 <table border="1">
     <tr>
@@ -11,7 +23,7 @@
         <th>Data</th>
     </tr>
 
-    {% for l in leituras %}
+    {% for l in leituras[:10] %}
     <tr>
         <td>{{ l.id }}</td>
         <td>{{ l.temperatura }} °C</td>
@@ -22,6 +34,79 @@
 </table>
 
 <button onclick="atualizar()">Atualizar</button>
+
+{% if leituras %}
+{% set series = leituras|reverse|list %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('myChart');
+    const labels = {{ series|map(attribute='timestamp')|list|tojson }};
+    const temps = {{ series|map(attribute='temperatura')|list|tojson }};    
+    const umids = {{ series|map(attribute='umidade')|list|tojson }};
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Temperatura (°C)',
+            data: temps,
+            yAxisID: 'y',
+            borderColor: 'rgb(220, 90, 50)',
+            backgroundColor: 'rgba(220, 90, 50, 0.12)',
+            fill: true,
+            tension: 0.25,
+            borderWidth: 2
+          },
+          {
+            label: 'Umidade (%)',
+            data: umids,
+            yAxisID: 'y1',
+            borderColor: 'rgb(54, 120, 200)',
+            backgroundColor: 'rgba(54, 120, 200, 0.08)',
+            fill: true,
+            tension: 0.25,
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Temperatura e umidade ao longo do tempo'
+          },
+          legend: {
+            display: true
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Data / hora' }
+          },
+          y: {
+            type: 'linear',
+            display: true,
+            position: 'left',
+            title: { display: true, text: 'Temperatura (°C)' },
+            beginAtZero: false
+          },
+          y1: {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            title: { display: true, text: 'Umidade (%)' },
+            beginAtZero: true,
+            max: 100,
+            grid: { drawOnChartArea: false }
+          }
+        }
+      }
+    });
+</script>
+{% endif %}
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

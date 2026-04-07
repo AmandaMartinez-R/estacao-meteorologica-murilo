@@ -9,7 +9,7 @@ init_db()
 # rota GET / (painel principal)
 @app.route('/')
 def index():
-    leituras = listar_leituras(10)
+    leituras = listar_leituras(40)
 
     formato = request.args.get('formato')
 

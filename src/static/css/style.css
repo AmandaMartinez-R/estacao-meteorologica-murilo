@@ -10,3 +10,10 @@ table {
 th, td {
     padding: 8px;
 }
+
+.chart-wrap {
+    position: relative;
+    max-width: 900px;
+    height: 320px;
+    margin: 1rem 0;
+}
