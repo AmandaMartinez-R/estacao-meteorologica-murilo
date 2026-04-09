@@ -6,7 +6,7 @@ import requests
 import serial
 import serial.tools.list_ports
 
-from serial_config import PORTA_FALLBACK, BAUD, URL
+from settings import PORTA_FALLBACK, BAUD, URL
 
 def escolher_porta():
     env = os.environ.get('SERIAL_PORT', '').strip()

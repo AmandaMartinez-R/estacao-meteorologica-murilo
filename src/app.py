@@ -1,7 +1,9 @@
 from datetime import datetime
 
 from flask import Flask, request, jsonify, render_template
+
 from database import *
+from settings import FLASK_BIND_HOST, FLASK_PORT
 
 app = Flask(__name__)
 
@@ -169,4 +171,4 @@ def api_heartbeat():
 
 # pra rodar o servidor
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host=FLASK_BIND_HOST, port=FLASK_PORT)
