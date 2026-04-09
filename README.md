@@ -1,4 +1,4 @@
-# Ponderada Estação Metorológica 🌦️
+# Ponderada Estação Meteorológica 🌦️
 
 ## Autores
 - Amanda Cristina Martinez da Rosa
