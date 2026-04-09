@@ -126,3 +126,46 @@ Sobre essa base foi montada a API em `app.py`: estrutura Flask com templates par
 ### Firmware e integração física
 
 O sketch em `src/firmware/firmware.ino` lê o sensor DHT e envia JSON pela serial; o `serial_reader.py` lê essa porta e encaminha as leituras para o **POST /leituras**, fechando o circuito entre hardware, backend e interface.
+
+---
+
+## Aprendizados da equipe
+
+### Amanda Cristina 
+O desenvolvimento desta atividade foi muito importante para entender, na prática, como funciona um sistema completo de IoT. Mais do que fazer partes separadas, consegui enxergar como tudo se conecta: desde o sensor no Arduino até os dados sendo exibidos em uma interface web.
+
+Um dos principais aprendizados foi entender o **fluxo completo dos dados**. Consegui visualizar claramente o caminho que a informação percorre: o sensor coleta os dados, o Arduino envia pela serial, o Python lê esses dados, a API recebe e salva no banco, e depois tudo isso é exibido no front-end. Isso me ajudou a sair da visão isolada das coisas e pensar mais como um sistema integrado.
+
+Na parte do **Arduino**, entendi melhor como funciona a leitura de sensores como o DHT11 e como estruturar os dados em formato JSON para enviar pela serial. Também percebi a importância de tratar erros, como quando o sensor retorna valores inválidos.
+
+No **backend com Flask**, aprendi bastante sobre como funciona uma API REST na prática. Entendi melhor o papel de cada método (GET, POST, PUT, DELETE) e como organizar as rotas. Além disso, ficou muito mais claro como conectar a API com o banco de dados e como receber e validar dados em formato JSON. Uma vez que esse trabalho foi uma grande dificuldade minha ao longo do módulo, agora tudo parece mais claro.
+
+O uso do **SQLite** também foi um aprendizado importante, principalmente na parte de CRUD (criar, ler, atualizar e deletar dados). Um ponto que achei interessante foi a configuração do modo WAL, que permite que mais de um processo acesse o banco sem travar, algo que eu não conhecia antes.
+
+Na parte de **comunicação entre Arduino e Python**, mesmo que não tenha desevolvido de fato, foi onde vi o maior desafio, porque envolve várias coisas ao mesmo tempo. Precisei entender, junto do Carlos, como ler dados da porta serial, transformar esses dados em JSON e enviar para a API. Pequenos erros nessa etapa quebravam tudo, então foi um bom exercício de atenção aos detalhes.
+
+Já no **front-end**, consegui entender como os dados da API são exibidos na interface e como ações do usuário (como editar ou deletar uma leitura) se conectam com o backend. Mesmo não sendo a parte principal do projeto e também não desenvolvendo diretamente, foi importante para fechar o ciclo completo da aplicação.
+
+O maior desafio do projeto, com certeza, foi a **integração de todas as partes**. Fazer cada parte funcionar separadamente é uma coisa, mas fazer tudo funcionar junto exige muito mais atenção e entendimento. Isso me ajudou a desenvolver uma visão mais completa de como sistemas reais são construídos.
+
+Além disso, consigo ver aplicações reais para esse tipo de sistema, como monitoramento de temperatura em ambientes, estufas agrícolas ou até sistemas industriais. Isso mostra como o que aprendemos pode ser aplicado fora da faculdade, no meu caso, até em ligas acadêmicas.
+
+---
+
+## O que eu desenvolvi na prática
+
+* Implementação do banco de dados SQLite (estrutura da tabela e CRUD completo)
+* Desenvolvimento das funções de acesso ao banco (`database.py`)
+* Criação da API REST com Flask (`app.py`)
+* Implementação dos endpoints (GET, POST, PUT, DELETE e estatísticas)
+* Testes da API usando requisições HTTP
+* Integração entre API e banco de dados
+* Estruturação dos dados em JSON para comunicação entre os sistemas
+* Participação na construção das páginas do front-end (dashboard, histórico e edição)
+* Entendimento completo do fluxo de dados do sistema (do sensor até a interface)
+
+---
+
+De forma geral, essa atividade me ajudou muito a consolidar conhecimentos de programação, integração de sistemas e arquitetura de software, além de me dar uma visão muito mais clara de como projetos reais de IoT funcionam na prática.
+
+
