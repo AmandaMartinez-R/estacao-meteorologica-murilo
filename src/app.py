@@ -171,4 +171,4 @@ def api_heartbeat():
 
 # pra rodar o servidor
 if __name__ == '__main__':
-    app.run(debug=True, host=FLASK_BIND_HOST, port=FLASK_PORT)
+    app.run(debug=False, host=FLASK_BIND_HOST, port=FLASK_PORT)
