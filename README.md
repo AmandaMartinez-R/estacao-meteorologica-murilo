@@ -107,7 +107,27 @@ cd src
 python3 serial_reader.py
 ```
 
-Ajuste a constante `PORTA` em `serial_reader.py` conforme o sistema: no Linux costuma ser `/dev/ttyACM0` ou `/dev/ttyUSB0`; no Windows, algo como `COM3`. A taxa (`BAUD`) deve ser **9600**, igual ao sketch.
+Ajuste a constante `PORTA` em `serial_config.py` conforme o sistema: no Linux costuma ser `/dev/ttyACM0` ou `/dev/ttyUSB0`; no Windows, algo como `COM3`. A taxa (`BAUD`) deve ser **9600**, igual ao sketch.
+
+---
+
+## Circuito físico
+
+Essa seção demonstrará a montagem do circuito físico, com o Arduino, o sensor DHT11 e o protoboard.
+
+| Figura 1 — vista superior do circuito | Figura 2 — vista lateral do circuito |
+|:---:|:---:|
+| ![Vista superior do circuito com Arduino e sensor](assets/vista-superior.jpeg) | ![Vista lateral do circuito](assets/vista-lateral.jpeg) |
+
+*Fonte:* Material produzido pela dupla. *Fonte:* Material produzido pela dupla.
+
+
+**Figura 3 — Leitura no monitor serial.**
+<br>
+![Leitura no monitor serial](assets/leitura-serial.png)
+<br>
+*Fonte:* Material produzido pela dupla.
+
 
 ---
 
