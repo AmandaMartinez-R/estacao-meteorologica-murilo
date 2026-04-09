@@ -80,11 +80,12 @@ O script `src/serial_reader.py` lê a porta serial onde o Arduino envia JSON (um
 Recomenda-se um ambiente virtual; na raiz do repositório:
 
 ```bash
+cd src
 python3 -m venv venv
 source venv/bin/activate          # Linux/macOS
 # ou, no Windows: venv\Scripts\activate
 
-pip install -r src/requirements.txt
+pip install -r requirements.txt
 ```
 
 Isso instala **Flask**, **pyserial** e **requests**, usados pelo servidor e pelo leitor serial.
@@ -143,9 +144,28 @@ Foi definido o esquema relacional em `schema.sql`, com a tabela de leituras (tem
 
 Sobre essa base foi montada a API em `app.py`: estrutura Flask com templates para o painel, rota **GET /** como painel principal (e opção de resposta JSON), **GET /leituras** para listar todas as leituras, **POST /leituras** para receber novos registros (rota usada pelo Arduino, via `serial_reader.py` ou integração equivalente), `GET /leituras/<id>`, `PUT /leituras/<id>` e `DELETE /leituras/<id>` para consultar e alterar registros pontuais, além de **GET /api/estatisticas** para agregados. O servidor é executado com `python3 app.py` a partir da pasta `src/`, conforme a seção anterior.
 
+
+### Criação do arquivo de testes
+
+O arquivo `teste_db.py` é responsável por testar o banco de dados, criando e listando leituras antes da integração com o Arduino.
+
+
 ### Firmware e integração física
 
 O sketch em `src/firmware/firmware.ino` lê o sensor DHT e envia JSON pela serial; o `serial_reader.py` lê essa porta e encaminha as leituras para o **POST /leituras**, fechando o circuito entre hardware, backend e interface.
+
+### Arquivo python para leitura da porta serial
+
+O arquivo `serial_reader.py` é responsável por ler a porta serial onde o Arduino envia JSON e repassar os dados para a API com `POST` em `http://localhost:5000/leituras`. Para isso funcionar, é preciso instalar as bibliotecas listadas em `src/requirements.txt`.
+
+### Criação do gráfico de temperatura e umidade
+
+O gráfico de temperatura e umidade foi criado usando a biblioteca `chart.js` e o arquivo `chart.html` é responsável por exibir o gráfico na interface web.
+
+### Criação do arquivo de configuração
+
+O arquivo `settings.py` é responsável por configurar as constantes do projeto, como a porta do servidor, a URL da API e a porta da API. 
+
 
 ---
 
@@ -188,4 +208,18 @@ Além disso, consigo ver aplicações reais para esse tipo de sistema, como moni
 
 De forma geral, essa atividade me ajudou muito a consolidar conhecimentos de programação, integração de sistemas e arquitetura de software, além de me dar uma visão muito mais clara de como projetos reais de IoT funcionam na prática.
 
+### Carlos Icaro Kauã Coelho Paiva
 
+De toda a atividade, o que mais me desafiou foi a parte de comunicação entre o Arduino e o Python. Aprendi a usar a biblioteca `pyserial` para ler a porta serial onde o Arduino envia os dados em JSON e enviar para a API com `POST` em `http://localhost:5000/leituras`.
+
+Além disso, trabalhar novamente com banco de dados SQLite local foi uma boa forma de relembrar os princípios básicos de banco de dados e como funciona o SQLite e bancos de dados relacionais. Quando utilizamos Supabase por exemplo, a utilização de chaves de API e autenticação cria uma camada de complexidade que não necessariamente faz parte dos princípios e acaba por afastar do entendimento básico do assunto.
+
+Inclusive, criar o arquivo de modularização das configurações (settings.py) também foi interessante por desmistificar a importação de variáveis de ambiente e a configuração de constantes, algo que precisamos fazer em praticamente todos os projetos e que muitas vezes me deixava um pouco confuso, apesar de ser algo bem simples.
+
+Também foi muito importante para mim entender como funciona a parte de integração de sistemas, desde a parte de comunicação entre o Arduino e o Python até a parte de integração com o banco de dados e a interface web. Isso se deu a partir da análise da estrutura do flask, que por conta da simplicidade do projeto, foi bem clara e fácil de entender.
+
+A criação do gráfico de temperatura e umidade também me fez relembrar como funciona a biblioteca `chart.js` e como criar um gráfico de linhas simples utilizando JavaScript puro. Além do básico de como importar uma biblioteca externa para o projeto, algo que já tinha feito antes, mas que não me recordava.
+
+A utilização do arquivo de testes (teste_db.py) criado pela Amanda também foi significativo para entender como implementar testes unitários e como testar o banco de dados de forma modular e organizada. A relevância se da pela crescente necessidade de testes em projetos reais, principamente os automatizados.
+
+A implementação do heartbet do Arduino também foi interessante por conta da importância desse sistema em projetos reais de IOT, quando não necessariamente haverá um ser humano para verificar se o sistema está funcionando corretamente, o sistema de heartbeat assume esse papel, agregando valor ao projeto por conta do aumento da transparência e segurança de operação.
